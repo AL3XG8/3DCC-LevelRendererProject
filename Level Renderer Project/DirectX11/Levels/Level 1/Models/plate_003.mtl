@@ -1,0 +1,12 @@
+# Blender MTL File: 'Test_Level.blend'
+# Material Count: 1
+
+newmtl Material.010
+Ns 379.904142
+Ka 1.000000 1.000000 1.000000
+Kd 0.376262 0.291771 0.132868
+Ks 0.103636 0.103636 0.103636
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2

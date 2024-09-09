@@ -1,0 +1,52 @@
+Most assignment templates now seperate out their shaders into individual files.
+You may come across some samples that still use shaders in their raw string form.
+If you wish to convert those shaders into their own files, this document will explain how.
+
+Tired of editing Vulkan/OpenGL shaders in string form?
+Me too! Make an .hlsl or .glsl file and use whatever text editor you like instead.(Tip: shadered.org)
+(Bonus: VS/ShaderEd will do syntax highlighting on .hlsl/.glsl files)
+
+Once you move your shaders to their own files you can use this to convert them to strings:
+
+// Load a shader file as a string of characters.
+std::string ShaderAsString(const char* shaderFilePath) {
+	std::string output;
+	unsigned int stringLength = 0;
+	GW::SYSTEM::GFile file; file.Create();
+	file.GetFileSize(shaderFilePath, stringLength);
+	if (stringLength && +file.OpenBinaryRead(shaderFilePath)) {
+		output.resize(stringLength);
+		file.Read(&output[0], stringLength);
+	}
+	else
+		std::cout << "ERROR: Shader Source File \"" << shaderFilePath << "\" Not Found!" << std::endl; 
+	return output;
+}
+
+Then just nab the string and send it to the relevant shader compiler in your code.
+Unless you are using something like "shaderEd" You will still need to check them for compile errors at run-time.
+However, this should make editing them between compiles way less annoying.
+
+NOTES:
+The VS HLSL shader compiler does not recognize Vulkan specific lines like: "[[vk::push_constant]]".
+Thus if you add them to your project they will produce compiler errors and stop the project from building.
+If you want them to exist in the solution then you will need to remove them from the build.
+You can do this manually by editing the file properties but this is only a temporary solution.
+A more permanent solution would be to add the shader files via "CMakeLists.txt" like any other source.
+Once there you change the properties so they will be ignored by the build directly in the cmake script.
+
+# example of how to set the vertex shader properties inside of a cmake script and disable/enable building.
+set_source_files_properties( MyVertexShader.hlsl PROPERTIES
+        VS_SHADER_TYPE Vertex 
+        VS_SHADER_MODEL 5.0
+        VS_SHADER_ENTRYPOINT main
+        VS_TOOL_OVERRIDE "None" 
+	# Tip: Swap "None" for "FXCompile" to have them actually be compiled by VS.(Great for D3D11/12)
+)
+
+IMPORTANT:
+If your shaders are external then they are now just like any other 3D model, texture or sound asset.
+For the program to run they must be relative to the exe just like anything else read in at run-time.
+Place your shaders next to your source and use "../myshader.hlsl" to go up a directory to load them.
+The templates run from the "build" folder, so when submitting you must place the exe in a subfolder.
+This allows the exe to travel up one folder relative to itself to locate any external resources. 

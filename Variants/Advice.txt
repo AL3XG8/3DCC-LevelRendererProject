@@ -1,0 +1,4 @@
+I recommend doing assignment 1 in D3D11 or OpenGL.
+If you found that really easy, then try Mastery 1 in Vulkan.
+If that was also really easy then switching to Vulkan or D3D12 *might* be safe.
+Even then, I would save those APIs for when you are not on a strict school time table.

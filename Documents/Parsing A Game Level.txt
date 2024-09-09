@@ -1,0 +1,33 @@
+The API_SAMPLES repo contains sample code on how to load and organize the GameLevel.txt file.
+Most students choose to start with that to begin coding the level renderer project.
+If you need practice with File I/O, this doc explains how to do it yourself. 
+
+To successfully extract the data contained in "GameLevel.txt": 
+
+1.) Use either std::ifstream or FILE* to open the file. (Tip: "../" in a filepath navigates up one directory)
+
+2.) Enter a infinite loop that stops when there are no more lines to read from the file.
+
+     3.) Read the current line of text from the file up to the newline "\n". (can use std::getline)
+          3b.) Exit the loop if nothing to read.
+
+     4.) String compare for the name of what you want. (intially this will be "MESH") [std::strcmp]
+          
+          5.) Read the next line, this is the name of the .h2b file to load in. (duplicates?)
+
+          6.) Read the next 4 lines. Each line contains a row of the 4x4 matrix of where the model is.
+               6b.) You can walk through the string and use std::atof/std::stof to grab the floats.
+               6c.) Alternatley you could use std::sscanf or just std::string helpers to pull the data.
+
+7.) After the loop exists you should have collected all the level data, now time to transfer it to the GPU.
+
+
+
+Hint: File I/O is a critical part of any programmer's skill set, expect to see it during technical interviews.
+
+Tip: If you are struggling to make progress or are just rusty, YouTube.com is an excellent source for
+     videos about C/C++ File I/O (or just programming in general). This is a situation that requires us to
+     write some fairly unique code. Copying code you find online just won't work here, you have to understand 
+     how the File I/O process works. Many of the C functions I mention above have their own dedicated videos.  
+
+
